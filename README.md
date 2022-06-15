@@ -261,7 +261,7 @@ ALCHEMY_API_KEY_URL=<YOUR API URL>
 RINKEBY_PRIVATE_KEY=<YOUR PRIVATE KEY>
 ```
 
-将 YOUR API URL 替换为你的rpc url，YOUR PRIVATE KEY 替换为你的私钥
+将 <YOUR API URL> 替换为你的 rpc url，<YOUR PRIVATE KEY> 替换为你的私钥
 
 * 在 .gitignore 的文件里添加 .env,它应该看起来像这样, 防止将 .env 上传到github
 
