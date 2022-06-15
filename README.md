@@ -32,7 +32,7 @@
 * 复制下该 github 文档，方便查看
 
 ```
-git clone 
+https://github.com/wufengtao1/8btc-WhiteMatrix-Nft-mint-web.git
 ```
 
 
