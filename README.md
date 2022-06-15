@@ -62,7 +62,7 @@ npm install @openzeppelin/contracts
 * 运行脚本
 
 ```
-npx hardhat run scripts/sample-script.js
+npx hardhat run scripts/run.js
 ```
 
 * 当出现以下输出时，说明你的 hardhat 环境已配置好，并且还部署了合约到本地区块链上
