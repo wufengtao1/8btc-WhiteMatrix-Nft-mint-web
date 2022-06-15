@@ -118,7 +118,7 @@ contract MyEpicNFT is ERC721URIStorage {
 npm install @openzeppelin/contracts
 ```
 
-> 备注： Token URL (如：https://ipfs.io/ipfs/QmTv6vgUrdYnVDnZQQ8BXrY2pCNyYWk1X1yZxM9PxnDbbi)会链接到 JSON 文件，称为 Metadata，例如
+> 备注： Token URL (如：https://ipfs.io/ipfs/QmTv6vgUrdYnVDnZQQ8BXrY2pCNyYWk1X1yZxM9PxnDbbi) 会链接到 JSON 文件，称为 Metadata，例如
 >
 > ```
 > {
