@@ -533,7 +533,7 @@ data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIH
 * 运行一下脚本
 
   ```
-  npx hardhat run scripts/sample-script.js
+  npx hardhat run scripts/run.js
   ```
 
 * 部署到 Rinkeby 上
