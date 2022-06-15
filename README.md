@@ -423,6 +423,7 @@ data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIH
   将下面的代码替换掉 contracts 里 MyEpicNFT.sol。
 
   ```solidity
+  // SPDX-License-Identifier: UNLICENSED
   pragma solidity ^0.8.1;
   
   
