@@ -35,8 +35,6 @@
 git clone https://github.com/wufengtao1/8btc-WhiteMatrix-Nft-mint-web.git
 ```
 
-
-
 * 输入以下指令，创建一个 epic-nfts 工作目录
 
  ```
@@ -118,7 +116,7 @@ contract MyEpicNFT is ERC721URIStorage {
 npm install @openzeppelin/contracts
 ```
 
-> 备注： Token URL (如：https://ipfs.io/ipfs/QmTv6vgUrdYnVDnZQQ8BXrY2pCNyYWk1X1yZxM9PxnDbbi) 会链接到 JSON 文件，称为 Metadata，例如
+> 备注： Token URL (如：https://ipfs.io/ipfs/QmTv6vgUrdYnVDnZQQ8BXrY2pCNyYWk1X1yZxM9PxnDbbi)会链接到 JSON 文件，称为 Metadata，例如
 >
 > ```
 > {
@@ -261,7 +259,7 @@ ALCHEMY_API_KEY_URL=<YOUR API URL>
 RINKEBY_PRIVATE_KEY=<YOUR PRIVATE KEY>
 ```
 
-将 <YOUR API URL> 替换为你的 rpc url，<YOUR PRIVATE KEY> 替换为你的私钥
+将 <YOUR API URL> 替换为你的rpc url，<YOUR PRIVATE KEY> 替换为你的私钥
 
 * 在 .gitignore 的文件里添加 .env,它应该看起来像这样, 防止将 .env 上传到github
 
@@ -545,11 +543,51 @@ npx hardhat run scripts/deploy.js --network rinkeby
 
 这样我们就可以去 [testnet opensea](testnets.opensea.io) 上看到自己发行的随机 NFT 了。
 
+* 验证合约, 安装验证包
+
+```
+npm install @openzepplin/contracts
+```
+
+* 将 hardhat.config.js 修改成以下内容
+
+```js
+require('@nomiclabs/hardhat-waffle');
+require("dotenv").config({ path: ".env" });
+require('@nomiclabs/hardhat-etherscan');
+
+module.exports = {
+  solidity: '0.8.1',
+  networks: {
+    rinkeby: {
+      url: process.env.ALCHEMY_API_KEY_URL,
+      accounts: [process.env.RINKEBY_PRIVATE_KEY],
+    },
+  },
+  etherscan: {
+    apiKey: "KZ3FZX6DBCYT3ZY36E7KI7A4TTY9G6RYRM"
+  }
+};
+```
+
+其中 apiKey 最好自己去 etherScan 上申请一个，避免共用导致太慢
+
+* 验证合约
+
+````
+npx hardhat verify "ADDRESS" --network rinkeby
+````
+
+将"ADDRESS"替换为自己的合约地址
+
+等到验证成功后就可以在 etherscan 上看到已验证的合约了
+
 ## 生成前端铸造网页
 
 * 将事先准备好的前端框架安装好
 
 ```
+cd ..
 git clone https://github.com/wufengtao1/buildspace-nft-course-starter.git
 ```
 
@@ -720,7 +758,7 @@ return (
 );
 ```
 
-* 复制 artifacts/contracts/MyEpicNFT.sol/MyEpicNFT.json 内容，然后在 buildspace-nft-course-starter/src 文件夹下创建一个 utils 文件夹，并在 utils 文件夹下创建 MyepicNFT.json 文件，内容为复制的内容，路径看起来像 src/utils/MyEpicNFT.json
+* 复制 epic-nfts/artifacts/contracts/MyEpicNFT.sol/MyEpicNFT.json 内容，然后在 buildspace-nft-course-starter/src 文件夹下创建一个 utils 文件夹，并在 utils 文件夹下创建 MyEpicNFT.json 文件，内容为复制的内容，路径看起来像 src/utils/MyEpicNFT.json
 
 * 在 App.js 顶部加入
 
@@ -737,13 +775,12 @@ import { ethers } from "ethers";
 import React, { useEffect, useState } from "react";
 import myEpicNft from './utils/MyEpicNFT.json';
 
-const TWITTER_HANDLE = '_buildspace';
-const TWITTER_LINK = `https://twitter.com/${TWITTER_HANDLE}`;
-const OPENSEA_LINK = '';
-const TOTAL_MINT_COUNT = 50;
+const TWITTER_HANDLE = '_chainide * buildspace';
+const TWITTER_LINK = `https://twitter.com/chainide`;
+
 
 // 替换为你的合约地址
-const CONTRACT_ADDRESS = "0xF1aD06077E05ebD0e0c0e8eBC104fE436c560D6F";
+const CONTRACT_ADDRESS = "ur contract_address";
 
 const App = () => {
 
@@ -862,7 +899,7 @@ const App = () => {
 
 
   useEffect(() => {
-    checkIfWalletIsConnected();
+    checkIfWalletIsConnected();    // eslint-disable-next-line
   }, [])
 
   const renderNotConnectedContainer = () => (
@@ -912,9 +949,13 @@ npm install
 npm run start
 ```
 
-打开左边的端口转发，就可以看到你的 mint 页面了!
+打开左边的端口转发, 转发 3000 端口，打开链接，就可以看到你的 mint 页面了!
 
 如果想保存到本地，点击 EXPLORER 下的下载键就可以了, 上传到自己的 github 也是不错的选择。
 
 Be happy!
+
+* ChainIDE twitter:  https://twitter.com/ChainIde (精彩活动，应有尽有)
+
+
 
