@@ -4,11 +4,15 @@
 
 ## 准备环境
 
-1. Metamask 钱包（需要有一些 Rinkeby 测试币）
+1. Metamask 钱包
 
 教程：https://chainide.gitbook.io/chainide-chinese/huan-jing-pei-zhi
 
-1. ChainIDE.com
+2. ChainIDE.com or 本地环境
+3. Markdown 阅读器（typora，vscode等）
+
+4. hardhat:https://hardhat.org/hardhat-runner/docs/getting-started
+5. node v16
 
 ## 目标成果
 
@@ -26,6 +30,8 @@
 
 ## 智能合约部分
 
+> 如果使用本地环境，需要安装node 16或以上的环境，可参考此教程https://hardhat.org/tutorial/setting-up-the-environment?utm_source=buildspace.so&utm_medium=buildspace_project
+
 * 打开 www.chainide.com
 * 点击 ETH 图标进入编程页面（可选择登录 github）
 * 点击 Terminal - + - npm-hardhat
@@ -42,7 +48,19 @@ git clone https://github.com/wufengtao1/8btc-WhiteMatrix-Nft-mint-web.git
  cd epic-nfts
  ```
 
-* 安装 hardhat 的一个示例项目
+* 启动一个空的npm项目
+
+```
+npm init -y
+```
+
+* 安装hardhat(在chainide环境下可跳过此步)
+
+```
+npm install --save-dev hardhat
+```
+
+* 安装一个hardhat示例项目
 
 ```
 npx hardhat
@@ -53,28 +71,32 @@ npx hardhat
 * 安装 hardhat-waffle , hardhat-ether 和 openzepplin 库 
 
 ```
-npm install --save-dev @nomiclabs/hardhat-waffle ethereum-waffle chai @nomiclabs/hardhat-ethers ethers
+npm install --save-dev chai @nomiclabs/hardhat-ethers ethers @nomicfoundation/hardhat-toolbox @nomicfoundation/hardhat-chai-matchers
+```
+
+```
 npm install @openzeppelin/contracts
 ```
 
 * 运行脚本
 
 ```
-npx hardhat run scripts/run.js
+npx hardhat test
 ```
 
 * 当出现以下输出时，说明你的 hardhat 环境已配置好，并且还部署了合约到本地区块链上
 
-![](https://i.imgur.com/LIYT9tf.png)
+![](https://i.imgur.com/OI9YKaU.png)
 
-* 删除 test 文件夹下的 sample-test.js，scripts 下的 sample-script.js 和 contracts 下的 Greeter.sol
+* 删除 test 文件夹下的 Lock.js，scripts 下的 depoly.js 和 contracts 下的 Lock.sol
 * 在 contracts 文件夹下创建一个名为 MyEpicNFT.sol 的智能合约
 
 ，内容如下
 
 ```solidity
 // SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.8.1;
+
+pragma solidity ^0.8.17;
 
 // We first import some OpenZeppelin Contracts.
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
@@ -116,13 +138,19 @@ contract MyEpicNFT is ERC721URIStorage {
 npm install @openzeppelin/contracts
 ```
 
-> 备注： Token URL (如：https://ipfs.io/ipfs/QmTv6vgUrdYnVDnZQQ8BXrY2pCNyYWk1X1yZxM9PxnDbbi)会链接到 JSON 文件，称为 Metadata，例如
+> 备注： Token URL (如：ipfs://bafkreifc5mbcvsiokqgkzdtqdictvcrzmqclbv74zajgp4ppclx26vurve)会链接到 JSON 文件，称为 Metadata，例如
 >
 > ```
 > {
-> "description":"Doge meme",
-> "name":"Doge",
-> "image":"https://ipfs.io/ipfs/QmaszG3dd5XR2swraqTP1gyyw5azkjVnGKtpqttiuZeiDX"
+>     "name": "Dog",
+>     "description": "A cute dog",
+>     "image": "ipfs://bafkreiagzgfkl2jyxbqupqmj7tfdkroud3dc55he4m3dhchvr4d5uiglki",
+>     "properties": {
+>         "like": "meat",
+>         "hate": "cat",
+>         "rarity": "common",
+>         "version": "OG"
+>     }
 > }
 > ```
 >
@@ -138,7 +166,7 @@ _setTokenURI(newItemId, "blah");
 将其改为我们的 json 文件链接
 
 ```
-_setTokenURI(newItemId, "https://ipfs.io/ipfs/QmTv6vgUrdYnVDnZQQ8BXrY2pCNyYWk1X1yZxM9PxnDbbi");
+_setTokenURI(newItemId, "ipfs://bafkreifc5mbcvsiokqgkzdtqdictvcrzmqclbv74zajgp4ppclx26vurve");
 ```
 
 在该行下，我们添加一个`console.log`来帮助我们查看 NFT 的铸造时间和铸造者！
@@ -193,8 +221,15 @@ npx hardhat run scripts/run.js
 
 我们已经在本地区块链铸造了一个NFT！
 
-* 去 alchemy 或者 infura  获取一个 rinkeby  rpc
-* 搜索 rinkeby faucet 获取一定量的测试币
+* 去 alchemy 或者 infura  获取一个Goerli   rpc
+* 搜索  Goerli faucet 获取一定量的测试币
+
+| NAME            | LINK                                                         | AMOUNT | TIME     |
+| --------------- | ------------------------------------------------------------ | ------ | -------- |
+| MyCrypto        | [https://app.mycrypto.com/faucet](https://app.mycrypto.com/faucet?utm_source=buildspace.so&utm_medium=buildspace_project) | 0.01   | None     |
+| Official Goerli | [https://goerlifaucet.com/](https://goerlifaucet.com/?utm_source=buildspace.so&utm_medium=buildspace_project) | 0.25   | 24 Hours |
+| Chainlink       | [https://faucets.chain.link/goerli](https://faucets.chain.link/goerli?utm_source=buildspace.so&utm_medium=buildspace_project) | 0.1    | None     |
+
 * 在 scripts 文件夹下生成 deploy.js 文件（run.js 文件主要用来测试）
 
 ```js
@@ -229,18 +264,18 @@ const runMain = async () => {
 runMain();
 ```
 
-* 部署到 Rinkeby 测试网，修改我们的 hardhat.config.js 文件
+* 部署到 Goerli 测试网，修改我们的 hardhat.config.js 文件
 
 ```js
-require('@nomiclabs/hardhat-waffle');
-require("dotenv").config({ path: ".env" });
+require("@nomicfoundation/hardhat-toolbox");
+require("dotenv").config();
 
 module.exports = {
-  solidity: '0.8.1',
+  solidity: '0.8.17',
   networks: {
-    rinkeby: {
+    goerli: {
       url: process.env.ALCHEMY_API_KEY_URL,
-      accounts: [process.env.RINKEBY_PRIVATE_KEY],
+      accounts: [process.env.GOERLI_PRIVATE_KEY],
     },
   },
 };
@@ -256,7 +291,7 @@ npm install dotenv
 
 ```
 ALCHEMY_API_KEY_URL=<YOUR API URL>
-RINKEBY_PRIVATE_KEY=<YOUR PRIVATE KEY>
+GOERLI_PRIVATE_KEY=<YOUR PRIVATE KEY>
 ```
 
 将 <YOUR API URL> 替换为你的rpc url，<YOUR PRIVATE KEY> 替换为你的私钥
@@ -278,7 +313,7 @@ artifacts
 * 运行
 
 ```
-npx hardhat run scripts/deploy.js --network rinkeby
+npx hardhat run scripts/deploy.js --network goerli
 ```
 
 使用该行命令将合约部署到 rinkeby 上，成功后你将看到
@@ -290,10 +325,6 @@ npx hardhat run scripts/deploy.js --network rinkeby
 * 如果你的 NFT 没有出现，点击右边的 refresh，等待几分钟后，你就可以在 opensea 上看到你们的metadata了
 
 ![](https://i.imgur.com/dVACrDl.png)
-
-![image-20220609180141830](https://chainide-doc.s3.amazonaws.com/ERC721+deployment+on+Rinkeby+Etherum/ERC721+deployment+on+Rinkeby+Etherum/7.png)
-
-
 
 ## 将 NFT 存储在链上
 
@@ -342,7 +373,7 @@ data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIH
   
   // SPDX-License-Identifier: MIT
   
-  pragma solidity ^0.8.0;
+  pragma solidity ^0.8.1;
   
   /// [MIT License]
   /// @title Base64
@@ -422,7 +453,7 @@ data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIH
 
   ```solidity
   // SPDX-License-Identifier: UNLICENSED
-  pragma solidity ^0.8.1;
+  pragma solidity ^0.8.17;
   
   
   import "@openzeppelin/contracts/utils/Strings.sol";
@@ -535,10 +566,10 @@ data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIH
   npx hardhat run scripts/run.js
   ```
 
-* 部署到 Rinkeby 上
+* 部署到 goerli 上
 
 ```
-npx hardhat run scripts/deploy.js --network rinkeby
+npx hardhat run scripts/deploy.js --network goerli
 ```
 
 这样我们就可以去 [testnet opensea](testnets.opensea.io) 上看到自己发行的随机 NFT 了。
@@ -546,7 +577,7 @@ npx hardhat run scripts/deploy.js --network rinkeby
 * 验证合约, 安装验证包
 
 ```
-npm install @openzepplin/contracts
+npm install @nomiclabs/hardhat-etherscan @nomiclabs/hardhat-waffle
 ```
 
 * 将 hardhat.config.js 修改成以下内容
@@ -557,15 +588,15 @@ require("dotenv").config({ path: ".env" });
 require('@nomiclabs/hardhat-etherscan');
 
 module.exports = {
-  solidity: '0.8.1',
+  solidity: '0.8.17',
   networks: {
-    rinkeby: {
+    goerli: {
       url: process.env.ALCHEMY_API_KEY_URL,
-      accounts: [process.env.RINKEBY_PRIVATE_KEY],
+      accounts: [process.env.GOERLI_PRIVATE_KEY],
     },
   },
   etherscan: {
-    apiKey: "KZ3FZX6DBCYT3ZY36E7KI7A4TTY9G6RYRM"
+    apiKey: "MZHHBVA6XXQ25ZM53NDAHNNBJGE7QYHJDM"
   }
 };
 ```
@@ -575,12 +606,22 @@ module.exports = {
 * 验证合约
 
 ````
-npx hardhat verify "ADDRESS" --network rinkeby
+npx hardhat verify "ADDRESS" --network goerli
 ````
 
 将"ADDRESS"替换为自己的合约地址
 
 等到验证成功后就可以在 etherscan 上看到已验证的合约了
+
+如果因为网络问题验证不成功可在 require('@nomiclabs/hardhat-etherscan');下加
+
+```js
+const { ProxyAgent, setGlobalDispatcher } = require("undici");
+const proxyAgent = new ProxyAgent('http://127.0.0.1:12453'); // change to yours proxy
+setGlobalDispatcher(proxyAgent);
+```
+
+
 
 ## 生成前端铸造网页
 
@@ -591,172 +632,7 @@ cd ..
 git clone https://github.com/wufengtao1/buildspace-nft-course-starter.git
 ```
 
-* 配置好 metamask，切换到rinkeby，并获取一定的测试币
-* 使用 window.ethereum()
-
-让钱包可以连接到我们网站, 进入 buildspace-nft-course-starter > src > App.js, 改为以下内容
-
-```js
-import React, { useEffect, useState } from "react";
-import './styles/App.css';
-import twitterLogo from './assets/twitter-logo.svg';
-
-const TWITTER_HANDLE = '_buildspace';
-const TWITTER_LINK = `https://twitter.com/${TWITTER_HANDLE}`;
-const OPENSEA_LINK = '';
-const TOTAL_MINT_COUNT = 50;
-
-const App = () => {
-  const [currentAccount, setCurrentAccount] = useState("");
-  
-  const checkIfWalletIsConnected = async () => {
-    const { ethereum } = window;
-
-    if (!ethereum) {
-      console.log("Make sure you have metamask!");
-      return;
-    } else {
-      console.log("We have the ethereum object", ethereum);
-    }
-
-    const accounts = await ethereum.request({ method: 'eth_accounts' });
-
-    if (accounts.length !== 0) {
-      const account = accounts[0];
-      console.log("Found an authorized account:", account);
-      setCurrentAccount(account);
-    } else {
-      console.log("No authorized account found");
-    }
-  }
-
-  /*
-  * Implement your connectWallet method here
-  */
-  const connectWallet = async () => {
-    try {
-      const { ethereum } = window;
-
-      if (!ethereum) {
-        alert("Get MetaMask!");
-        return;
-      }
-
-      /*
-      * Fancy method to request access to account.
-      */
-      const accounts = await ethereum.request({ method: "eth_requestAccounts" });
-
-      /*
-      * Boom! This should print out public address once we authorize Metamask.
-      */
-      console.log("Connected", accounts[0]);
-      setCurrentAccount(accounts[0]); 
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  // Render Methods
-  const renderNotConnectedContainer = () => (
-    <button onClick={connectWallet} className="cta-button connect-wallet-button">
-      Connect to Wallet
-    </button>
-  );
-
-  useEffect(() => {
-    checkIfWalletIsConnected();
-  }, [])
-
-  /*
-  * Added a conditional render! We don't want to show Connect to Wallet if we're already connected :).
-  */
-  return (
-    <div className="App">
-      <div className="container">
-        <div className="header-container">
-          <p className="header gradient-text">My NFT Collection</p>
-          <p className="sub-text">
-            Each unique. Each beautiful. Discover your NFT today.
-          </p>
-          {currentAccount === "" ? (
-            renderNotConnectedContainer()
-          ) : (
-            <button onClick={null} className="cta-button connect-wallet-button">
-              Mint NFT
-            </button>
-          )}
-        </div>
-        <div className="footer-container">
-          <img alt="Twitter Logo" className="twitter-logo" src={twitterLogo} />
-          <a
-            className="footer-text"
-            href={TWITTER_LINK}
-            target="_blank"
-            rel="noreferrer"
-          >{`built on @${TWITTER_HANDLE}`}</a>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export default App;
-```
-
-* 在前端上添加铸造 NFT 功能，将 makeEpicNFT 合约函数添加到 connectWallet 中。在上面的函数下继续添加以下内容
-
-```js
-const askContractToMintNft = async () => {
-  // INSERT_YOUR_DEPLOYED_RINKEBY_CONTRACT_ADDRESS 为之前部署的合约地址
-  const CONTRACT_ADDRESS = "INSERT_YOUR_DEPLOYED_RINKEBY_CONTRACT_ADDRESS";
-
-  try {
-    const { ethereum } = window;
-
-    if (ethereum) {
-      const provider = new ethers.providers.Web3Provider(ethereum);
-      const signer = provider.getSigner();
-      const connectedContract = new ethers.Contract(CONTRACT_ADDRESS, myEpicNft.abi, signer);
-
-      console.log("Going to pop wallet now to pay gas...")
-      let nftTxn = await connectedContract.makeAnEpicNFT();
-
-      console.log("Mining...please wait.")
-      await nftTxn.wait();
-      
-      console.log(`Mined, see transaction: https://rinkeby.etherscan.io/tx/${nftTxn.hash}`);
-
-    } else {
-      console.log("Ethereum object doesn't exist!");
-    }
-  } catch (error) {
-    console.log(error)
-  }
-}
-```
-
-在顶部添加 ether.js 内容
-
-```js
-import { ethers } from "ethers";
-```
-
-当有人点击 “Mint NFT” 时，我们需要调用 makeEpicNFT 函数，所以修改之前的代码
-
-```js
-return (
-  {currentAccount === "" 
-    ? renderNotConnectedContainer()
-    : (
-      /** Add askContractToMintNft Action for the onClick event **/
-      <button onClick={askContractToMintNft} className="cta-button connect-wallet-button">
-        Mint NFT
-      </button>
-    )
-  }
-);
-```
+* 配置好 metamask，切换到goerli，确保有一定的测试币
 
 * 复制 epic-nfts/artifacts/contracts/MyEpicNFT.sol/MyEpicNFT.json 内容，然后在 buildspace-nft-course-starter/src 文件夹下创建一个 utils 文件夹，并在 utils 文件夹下创建 MyEpicNFT.json 文件，内容为复制的内容，路径看起来像 src/utils/MyEpicNFT.json
 
@@ -766,7 +642,7 @@ return (
 import myEpicNft from './utils/MyEpicNFT.json';
 ```
 
-* 为了添加铸造完成时 opensea 链接，并提醒用户切换到rinkeby，将 App.js 替换为
+* 为了添加铸造完成时 opensea 链接，并提醒用户切换到goerli，buildspace-nft-course-starter > src > App.js, 改为以下内容
 
 ```js
 import './styles/App.css';
@@ -799,10 +675,10 @@ const App = () => {
     let chainId = await ethereum.request({ method: 'eth_chainId' });
     console.log("Connected to chain " + chainId);
 
-    // String, hex code of the chainId of the Rinkebey test network
-    const rinkebyChainId = "0x4"; 
+    // String, hex code of the chainId of the Goerli test network
+    const rinkebyChainId = "0x5"; 
     if (chainId !== rinkebyChainId) {
-        alert("You are not connected to the Rinkeby Test Network!");
+        alert("You are not connected to the Goerli Test Network!");
     }
 
       const accounts = await ethereum.request({ method: 'eth_accounts' });
@@ -859,7 +735,7 @@ const App = () => {
         // If you're familiar with webhooks, it's very similar to that!
         connectedContract.on("NewEpicNFTMinted", (from, tokenId) => {
           console.log(from, tokenId.toNumber())
-          alert(`Hey there! We've minted your NFT and sent it to your wallet. It may be blank right now. It can take a max of 10 min to show up on OpenSea. Here's the link: https://testnets.opensea.io/assets/${CONTRACT_ADDRESS}/${tokenId.toNumber()}`)
+          alert(`Hey there! We've minted your NFT and sent it to your wallet. It may be blank right now. It can take a max of 10 min to show up on OpenSea. Here's the link: https://testnets.opensea.io/assets/goerli//${CONTRACT_ADDRESS}/${tokenId.toNumber()}`)
         });
 
         console.log("Setup event listener!")
@@ -887,7 +763,7 @@ const App = () => {
         console.log("Mining...please wait.")
         await nftTxn.wait();
         console.log(nftTxn);
-        console.log(`Mined, see transaction: https://rinkeby.etherscan.io/tx/${nftTxn.hash}`);
+        console.log(`Mined, see transaction: https://goerli.etherscan.io/tx/${nftTxn.hash}`);
 
       } else {
         console.log("Ethereum object doesn't exist!");
@@ -955,7 +831,8 @@ npm run start
 
 Be happy!
 
-* ChainIDE twitter:  https://twitter.com/ChainIde (精彩活动，应有尽有)
+* ChainIDE twitter:  https://twitter.com/ChainIde 
+* ChainIDE discord: https://discord.gg/qv8M29pYwX
 
 
 
